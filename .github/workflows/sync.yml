@@ -1,0 +1,22 @@
+name: Sync fork with upstream
+
+on:
+  schedule:
+    - cron: '0 0 * * *'     # каждый день в 00:00 UTC
+  workflow_dispatch:        # можно запускать вручную
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync upstream
+        uses: aormsby/Fork-Sync-With-Upstream-action@v1.0
+        with:
+          upstream_repository: ORIGINAL_OWNER/ORIGINAL_REPO
+          upstream_branch: main
+          target_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
